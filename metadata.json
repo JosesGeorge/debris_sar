@@ -1,0 +1,5 @@
+{
+  "name": "Underwater Debris Detection System",
+  "description": "A SONAR-powered simulation for identifying, classifying, and monitoring underwater marine debris with animated wireframe targets.",
+  "requestFramePermissions": []
+}
