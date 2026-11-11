@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { MissionStatus, SonarTarget, LogEntry, ScenarioId } from './types';
 import { SonarSimulator } from './src/simulation/sonarSimulator';
 import { SCENARIOS } from './src/simulation/scenarios';
-import InzoraHUD from './components/InzoraHUD';
+import SonarHUD from './components/SonarHUD';
 
 const App: React.FC = () => {
   const [missionStatus, setMissionStatus] = useState<MissionStatus>(MissionStatus.SCANNING);
@@ -117,7 +117,7 @@ const App: React.FC = () => {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#020b14] text-cyan-50 font-mono selection:bg-cyan-400/30">
-      <InzoraHUD
+      <SonarHUD
         missionStatus={missionStatus}
         telemetry={telemetry}
         logs={logs}

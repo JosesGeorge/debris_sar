@@ -5,7 +5,7 @@ import SonarRadar from './SonarRadar';
 import WireframeViewer from './WireframeViewer';
 import AcousticWaveform from './AcousticWaveform';
 
-interface InzoraHUDProps {
+interface SonarHUDProps {
   missionStatus: MissionStatus;
   telemetry: TelemetryData;
   logs: LogEntry[];
@@ -53,8 +53,8 @@ function formatElapsed(s: number): string {
 
 const Panel: React.FC<{ title: string; children: React.ReactNode; className?: string }> = ({ title, children, className = '' }) => (
   <div className={`border border-cyan-400/20 bg-[#03111d]/95 backdrop-blur-md ${className}`}>
-    <div className="border-b border-cyan-400/10 px-3 py-2">
-      <h2 className="text-[9px] font-bold tracking-[0.25em] text-cyan-300/80">{title}</h2>
+    <div className="border-b border-cyan-400/10 px-3 py-2.5">
+      <h2 className="text-[11px] font-bold tracking-[0.2em] text-cyan-300/80">{title}</h2>
     </div>
     <div className="p-3">{children}</div>
   </div>
@@ -62,14 +62,14 @@ const Panel: React.FC<{ title: string; children: React.ReactNode; className?: st
 
 const Metric: React.FC<{ label: string; value: string; highlight?: boolean }> = ({ label, value, highlight }) => (
   <div className="mb-2">
-    <div className="text-[8px] tracking-widest text-cyan-100/40">{label}</div>
+    <div className="text-[10px] tracking-widest text-cyan-100/50">{label}</div>
     <div className={`mt-0.5 font-bold ${highlight ? 'text-amber-300' : 'text-white'}`}>{value}</div>
   </div>
 );
 
 const BarStat: React.FC<{ label: string; value: number; max?: number; color?: string }> = ({ label, value, max = 100, color = 'bg-cyan-400' }) => (
   <div className="mb-2">
-    <div className="mb-1 flex justify-between text-[8px]">
+    <div className="mb-1 flex justify-between text-[10px]">
       <span className="text-cyan-100/50">{label}</span>
       <span className="text-white">{value.toFixed(1)}</span>
     </div>
@@ -79,7 +79,7 @@ const BarStat: React.FC<{ label: string; value: number; max?: number; color?: st
   </div>
 );
 
-const InzoraHUD: React.FC<InzoraHUDProps> = ({
+const SonarHUD: React.FC<SonarHUDProps> = ({
   missionStatus, telemetry, logs, targets, selectedId, onSelect,
   onStart, onPause, onResume, onReset, onScenarioChange, onRangeChange, onClearTargets,
   scenario, scanRange, acousticData, isScanning, elapsed, scenarios
@@ -109,13 +109,13 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
         <div>
           <div className="flex items-center gap-3 text-cyan-300">
             <Waves className="h-4 w-4 animate-pulse" />
-            <span className="text-[9px] tracking-[0.35em] text-cyan-400/70">INZORA MARINE SYSTEMS // SONAR UNIT 09</span>
-            <span className="rounded border border-amber-400/40 bg-amber-400/10 px-1.5 py-0.5 text-[7px] tracking-widest text-amber-300">⚠ SIMULATION MODE</span>
+            <span className="text-[11px] tracking-[0.28em] text-cyan-400/70">MARINE SONAR SYSTEMS // SONAR UNIT 09</span>
+            <span className="rounded border border-amber-400/40 bg-amber-400/10 px-1.5 py-0.5 text-[10px] tracking-widest text-amber-300">⚠ SIMULATION MODE</span>
           </div>
-          <h1 className="mt-1 text-lg font-black tracking-[0.1em] text-white sm:text-xl">INZORA SONAR INTELLIGENCE</h1>
-          <p className="mt-0.5 text-[8px] tracking-[0.2em] text-cyan-100/40">UNDERWATER MARINE DEBRIS DETECTION AND SURVEILLANCE SYSTEM</p>
+          <h1 className="mt-1 text-xl font-black tracking-[0.08em] text-white sm:text-2xl">SONAR INTELLIGENCE DASHBOARD</h1>
+          <p className="mt-1 text-[10px] tracking-[0.16em] text-cyan-100/50">UNDERWATER MARINE DEBRIS DETECTION AND SURVEILLANCE SYSTEM</p>
         </div>
-        <div className="flex flex-wrap items-center gap-3 text-[9px]">
+        <div className="flex flex-wrap items-center gap-3 text-[11px]">
           <div className="flex flex-col items-end gap-1">
             <div className="flex items-center gap-2">
               <span className={`flex items-center gap-1 font-bold ${STATUS_COLOR[missionStatus]}`}>
@@ -158,7 +158,7 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
             <Metric label="TOTAL DETECTED" value={targets.length.toString()} highlight={targets.length > 0} />
             {Object.entries(categoryCounts).map(([cat, count]) => (
               <div key={cat} className="mb-2">
-                <div className="mb-1 flex justify-between text-[8px]">
+                <div className="mb-1 flex justify-between text-[10px]">
                   <span className={CATEGORY_COLOR[cat] ?? 'text-slate-300'}>{cat}</span>
                   <span className="text-white font-bold">{count}</span>
                 </div>
@@ -167,7 +167,7 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
                 </div>
               </div>
             ))}
-            {targets.length === 0 && <p className="text-[8px] text-cyan-100/30">No objects detected</p>}
+            {targets.length === 0 && <p className="text-[10px] text-cyan-100/30">No objects detected</p>}
           </Panel>
 
           <Panel title="SCAN RANGE">
@@ -176,7 +176,7 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
                 <button
                   key={r}
                   onClick={() => onRangeChange(r)}
-                  className={`w-full border px-2 py-1 text-[9px] tracking-widest transition ${
+                  className={`w-full border px-2 py-1.5 text-[10px] tracking-widest transition ${
                     scanRange === r
                       ? 'border-cyan-400/60 bg-cyan-400/15 text-cyan-300'
                       : 'border-cyan-400/15 text-cyan-100/50 hover:border-cyan-400/40 hover:text-cyan-200'
@@ -190,24 +190,38 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
         </div>
 
         {/* CENTRE: SONAR RADAR */}
-        <div className="order-1 flex flex-col border border-cyan-300/25 bg-[#010a13] lg:order-2">
-          <div className="flex items-center justify-between border-b border-cyan-300/15 px-3 py-2">
+        <div className="order-1 flex min-w-0 flex-col border border-cyan-300/25 bg-[#010a13] lg:order-2">
+          <div className="flex items-center justify-between border-b border-cyan-300/15 px-3 py-2.5">
             <div>
-              <h2 className="text-[9px] font-bold tracking-[0.25em] text-cyan-200">CENTRAL SONAR RADAR // 200 kHz</h2>
-              <p className="mt-0.5 text-[8px] text-cyan-100/40">360° SWEEP · LIVE DEBRIS TRACKING · ⚠ SIMULATED DATA</p>
+              <h2 className="text-[11px] font-bold tracking-[0.2em] text-cyan-200">SONAR RADAR // 200 kHz</h2>
+              <p className="mt-0.5 text-[10px] text-cyan-100/50">360° SWEEP · LIVE DEBRIS TRACKING · ⚠ SIMULATED DATA</p>
             </div>
-            <span className={`text-[9px] font-bold ${STATUS_COLOR[missionStatus]}`}>{missionStatus}</span>
+            <span className={`text-[11px] font-bold ${STATUS_COLOR[missionStatus]}`}>{missionStatus}</span>
           </div>
-          <div className="relative flex-1 min-h-[400px] flex items-center justify-center p-2">
-            <SonarRadar
-              targets={targets}
-              selectedId={selectedId}
-              onSelect={onSelect}
-              scanRange={scanRange}
-              missionStatus={missionStatus}
-            />
+          <div className="grid flex-1 grid-cols-1 gap-2 p-2 xl:grid-cols-[minmax(0,1.35fr)_minmax(260px,0.65fr)]">
+            <div className="relative flex min-h-[460px] items-center justify-center border border-cyan-300/10 bg-[#010810] p-2">
+              <SonarRadar
+                targets={targets}
+                selectedId={selectedId}
+                onSelect={onSelect}
+                scanRange={scanRange}
+                missionStatus={missionStatus}
+              />
+            </div>
+            <div className="flex min-h-[460px] min-w-0 flex-col border border-cyan-300/10 bg-[#010810]">
+              <div className="border-b border-cyan-300/10 px-3 py-2">
+                <h3 className="text-[11px] font-bold tracking-[0.18em] text-cyan-200">3D WIREFRAME SIMULATION</h3>
+                <p className="mt-1 text-[10px] text-cyan-100/50">LIVE REPRESENTATION OF SELECTED CONTACT</p>
+              </div>
+              <div className="min-h-0 flex-1">
+                <WireframeViewer target={selected} />
+              </div>
+              <div className="border-t border-cyan-300/10 px-3 py-2 text-[10px] text-cyan-100/50">
+                {selected ? `${selected.target_id} · ${selected.label}` : 'SELECT A TARGET TO VIEW MODEL'}
+              </div>
+            </div>
           </div>
-          <div className="flex justify-between border-t border-cyan-300/10 px-3 py-1.5 text-[8px] tracking-widest text-cyan-100/40">
+          <div className="flex justify-between border-t border-cyan-300/10 px-3 py-2 text-[10px] tracking-widest text-cyan-100/40">
             <span>RANGE 0—{scanRange}M</span>
             <span>{isScanning ? '● SWEEP ACTIVE' : '■ PAUSED'}</span>
             <span>HDG {telemetry.heading.toFixed(0)}°</span>
@@ -221,17 +235,17 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
               value={filter}
               onChange={e => setFilter(e.target.value)}
               placeholder="FILTER TARGETS..."
-              className="mb-2 w-full border border-cyan-300/20 bg-black/30 px-2 py-1 text-[8px] text-cyan-100 outline-none placeholder:text-cyan-100/30"
+              className="mb-2 w-full border border-cyan-300/20 bg-black/30 px-2 py-1.5 text-[10px] text-cyan-100 outline-none placeholder:text-cyan-100/30"
             />
             <div className="max-h-[180px] space-y-1 overflow-y-auto custom-scrollbar">
               {filteredTargets.length === 0 && (
-                <p className="text-[8px] text-cyan-100/30 py-2">No targets detected</p>
+                <p className="py-2 text-[10px] text-cyan-100/30">No targets detected</p>
               )}
               {filteredTargets.map(t => (
                 <div
                   key={t.target_id}
                   onClick={() => onSelect(t.target_id)}
-                  className={`cursor-pointer border px-2 py-1.5 text-[8px] transition ${
+                  className={`cursor-pointer border px-2 py-1.5 text-[10px] transition ${
                     t.target_id === selectedId
                       ? 'border-amber-400/50 bg-amber-400/10'
                       : 'border-cyan-400/15 hover:border-cyan-400/35 hover:bg-cyan-400/5'
@@ -250,7 +264,7 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
 
           <Panel title="SELECTED TARGET">
             {selected ? (
-              <div className="space-y-1 text-[9px]">
+              <div className="space-y-1 text-[10px]">
                 <div className="mb-2 flex items-center justify-between">
                   <span className="font-bold text-cyan-200">{selected.target_id}</span>
                   <span className={`font-bold ${selected.status === 'CONFIRMED' ? 'text-emerald-400' : 'text-amber-400'}`}>{selected.status}</span>
@@ -267,21 +281,11 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
                 <Metric label="DETECTION SOURCE" value="⚠ SIMULATION" />
               </div>
             ) : (
-              <p className="text-[8px] text-cyan-100/30">Select a target on the radar or list</p>
+              <p className="text-[10px] text-cyan-100/30">Select a target on the radar or list</p>
             )}
           </Panel>
 
           {/* 3D WIREFRAME VIEWER */}
-          <Panel title="3D WIREFRAME VIEWER — SIMULATED MODEL" className="flex-1">
-            <div className="h-[200px] w-full overflow-hidden border border-cyan-400/15 bg-[#010810]">
-              <WireframeViewer target={selected} />
-            </div>
-            {selected && (
-              <div className="mt-2 text-[8px] text-cyan-100/40">
-                Representative model · Not an acoustic reconstruction
-              </div>
-            )}
-          </Panel>
         </div>
       </div>
 
@@ -292,7 +296,7 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
           <div className="h-[70px]">
             <AcousticWaveform data={acousticData} isActive={isScanning} />
           </div>
-          <div className="mt-1 flex justify-between text-[7px] text-cyan-100/40">
+          <div className="mt-1 flex justify-between text-[9px] text-cyan-100/40">
             <span>TX PULSE ──►</span>
             <span>ECHO RETURNS</span>
             <span>GAIN: 72dB</span>
@@ -303,36 +307,36 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
         <Panel title="SYSTEM EVENT LOG">
           <div className="max-h-[100px] space-y-1 overflow-y-auto custom-scrollbar">
             {logs.slice(0, 10).map(log => (
-              <div key={log.id} className={`text-[8px] ${log.type === 'CRIT' ? 'text-rose-400' : log.type === 'WARN' ? 'text-amber-400' : 'text-cyan-100/60'}`}>
+              <div key={log.id} className={`text-[10px] ${log.type === 'CRIT' ? 'text-rose-400' : log.type === 'WARN' ? 'text-amber-400' : 'text-cyan-100/60'}`}>
                 <span className="text-cyan-100/30">{log.timestamp}</span> {log.message}
               </div>
             ))}
-            {logs.length === 0 && <p className="text-[8px] text-cyan-100/30">No events</p>}
+            {logs.length === 0 && <p className="text-[10px] text-cyan-100/30">No events</p>}
           </div>
         </Panel>
 
         {/* Controls */}
         <Panel title="SCAN CONTROLS">
           <div className="space-y-1.5">
-            <button onClick={onStart} disabled={isScanning} className="flex w-full items-center justify-center gap-2 border border-emerald-400/40 bg-emerald-400/10 px-2 py-1.5 text-[9px] tracking-widest text-emerald-300 transition hover:bg-emerald-400/20 disabled:opacity-30">
+            <button onClick={onStart} disabled={isScanning} className="flex w-full items-center justify-center gap-2 border border-emerald-400/40 bg-emerald-400/10 px-2 py-1.5 text-[10px] tracking-widest text-emerald-300 transition hover:bg-emerald-400/20 disabled:opacity-30">
               <Play className="h-3 w-3" /> START SCAN
             </button>
-            <button onClick={isScanning ? onPause : onResume} className="flex w-full items-center justify-center gap-2 border border-amber-400/40 bg-amber-400/10 px-2 py-1.5 text-[9px] tracking-widest text-amber-300 transition hover:bg-amber-400/20">
+            <button onClick={isScanning ? onPause : onResume} className="flex w-full items-center justify-center gap-2 border border-amber-400/40 bg-amber-400/10 px-2 py-1.5 text-[10px] tracking-widest text-amber-300 transition hover:bg-amber-400/20">
               {isScanning ? <><Pause className="h-3 w-3" /> PAUSE</> : <><Play className="h-3 w-3" /> RESUME</>}
             </button>
-            <button onClick={onReset} className="flex w-full items-center justify-center gap-2 border border-cyan-400/40 bg-cyan-400/10 px-2 py-1.5 text-[9px] tracking-widest text-cyan-300 transition hover:bg-cyan-400/20">
+            <button onClick={onReset} className="flex w-full items-center justify-center gap-2 border border-cyan-400/40 bg-cyan-400/10 px-2 py-1.5 text-[10px] tracking-widest text-cyan-300 transition hover:bg-cyan-400/20">
               <RefreshCw className="h-3 w-3" /> RESET
             </button>
-            <button onClick={onClearTargets} className="flex w-full items-center justify-center gap-2 border border-rose-400/40 bg-rose-400/10 px-2 py-1.5 text-[9px] tracking-widest text-rose-300 transition hover:bg-rose-400/20">
+            <button onClick={onClearTargets} className="flex w-full items-center justify-center gap-2 border border-rose-400/40 bg-rose-400/10 px-2 py-1.5 text-[10px] tracking-widest text-rose-300 transition hover:bg-rose-400/20">
               <Trash2 className="h-3 w-3" /> CLEAR TARGETS
             </button>
           </div>
           <div className="mt-2 border-t border-cyan-400/10 pt-2">
-            <div className="mb-1 text-[8px] tracking-widest text-cyan-100/40">SCENARIO</div>
+            <div className="mb-1 text-[10px] tracking-widest text-cyan-100/40">SCENARIO</div>
             <select
               value={scenario}
               onChange={e => onScenarioChange(e.target.value as ScenarioId)}
-              className="w-full border border-cyan-400/20 bg-[#010810] px-2 py-1 text-[8px] text-cyan-200 outline-none"
+              className="w-full border border-cyan-400/20 bg-[#010810] px-2 py-1.5 text-[10px] text-cyan-200 outline-none"
             >
               {scenarios.map(s => (
                 <option key={s.id} value={s.id}>{s.label.split('—')[0].trim()}</option>
@@ -345,4 +349,4 @@ const InzoraHUD: React.FC<InzoraHUDProps> = ({
   );
 };
 
-export default InzoraHUD;
+export default SonarHUD;

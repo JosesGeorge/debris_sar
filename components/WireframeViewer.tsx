@@ -102,8 +102,8 @@ const WireframeViewer: React.FC<WireframeViewerProps> = ({ target }) => {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x010810);
     sceneRef.current = scene;
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 0.35, 3.2);
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(0, 0.25, 2.7);
     cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -227,7 +227,7 @@ const WireframeViewer: React.FC<WireframeViewerProps> = ({ target }) => {
       onWheel={onWheel}
       aria-label={target ? `${target.label} 3D wireframe model` : '3D wireframe viewer'}
     >
-      {!target && <div className="flex h-full items-center justify-center text-[9px] text-cyan-100/30">SELECT A TARGET TO VIEW 3D MODEL</div>}
+      {!target && <div className="flex h-full items-center justify-center px-4 text-center text-[11px] text-cyan-100/40">SELECT A TARGET TO VIEW 3D MODEL</div>}
     </div>
   );
 };
