@@ -30,9 +30,12 @@ const App: React.FC = () => {
     const sim = new SonarSimulator({
       onTargetsUpdate: (newTargets) => {
         setTargets(newTargets);
-        if (newTargets.length > 0 && !selectedId) {
-          setSelectedId(newTargets[0].target_id);
-        }
+        setSelectedId(currentId => {
+          if (currentId && newTargets.some(target => target.target_id === currentId)) {
+            return currentId;
+          }
+          return newTargets[0]?.target_id ?? null;
+        });
       },
       onAcousticData: (buf) => setAcousticData(buf),
       onLog: (msg, type) => addLog(msg, type),
