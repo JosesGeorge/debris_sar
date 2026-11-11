@@ -1,8 +1,10 @@
 export enum MissionStatus {
+  IDLE = 'IDLE',
   SCANNING = 'SCANNING',
   CONTACT = 'CONTACT',
   INSPECT = 'INSPECT',
-  CONFIRMED = 'CONFIRMED'
+  CONFIRMED = 'CONFIRMED',
+  PAUSED = 'PAUSED'
 }
 
 export type DebrisCategory =
@@ -10,18 +12,64 @@ export type DebrisCategory =
   | 'Flexible Waste'
   | 'Metal Waste'
   | 'Fishing Waste'
+  | 'Rubber Waste'
   | 'Other Debris';
 
-export interface DebrisDetection {
-  id: string;
+export type ObjectType =
+  | 'plastic_bottle'
+  | 'plastic_bag'
+  | 'aluminum_can'
+  | 'fishing_net'
+  | 'tire'
+  | 'metal_scrap'
+  | 'unknown';
+
+export interface EstimatedDimensions {
+  length: number;
+  width: number;
+  height: number;
+}
+
+export interface SonarTarget {
+  target_id: string;
+  object_type: ObjectType;
   category: DebrisCategory;
   label: string;
-  confidence: number;
-  depth: number;
   distance: number;
+  bearing: number;
+  depth: number;
+  confidence: number;
+  signal_strength: number;
+  estimated_dimensions: EstimatedDimensions;
+  track_status: 'active' | 'lost' | 'archived';
+  detection_source: 'simulation';
   timestamp: string;
+  id: string;
   status: 'TRACKING' | 'CONFIRMED' | 'ARCHIVED';
   angle: number;
+  velocity?: { dr: number; dtheta: number };
+}
+
+export type ScenarioId = 'plastic_field' | 'mixed_debris' | 'ghost_net' | 'dynamic' | 'clean';
+
+export interface ScenarioConfig {
+  id: ScenarioId;
+  label: string;
+  description: string;
+  targets: Omit<SonarTarget, 'id' | 'timestamp' | 'status' | 'track_status'>[];
+}
+
+export interface SonarState {
+  missionStatus: MissionStatus;
+  targets: SonarTarget[];
+  selectedId: string | null;
+  scanRange: number;
+  scanAngle: number;
+  scenario: ScenarioId;
+  elapsedSeconds: number;
+  waterTemp: number;
+  signalStrength: number;
+  eventLog: LogEntry[];
 }
 
 export interface LogEntry {
@@ -55,3 +103,5 @@ export interface Particulate {
   vx: number;
   vy: number;
 }
+
+export interface DebrisDetection extends SonarTarget {}
